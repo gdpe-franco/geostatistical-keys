@@ -4,9 +4,14 @@
     "type": "module",
     "scripts": {
         "build": "vite build",
-        "dev": "vite"
+        "dev": "vite",
+        "lint": "eslint resources/js --max-warnings 0"
     },
     "devDependencies": {
+        "@eslint/js": "^10.0.1",
+        "eslint": "^10.8.0",
+        "eslint-plugin-vue": "^10.10.0",
+        "globals": "^17.9.0",
         "laravel-vite-plugin": "^3.1",
         "vite": "^8.0.0"
     },
