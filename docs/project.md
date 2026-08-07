@@ -30,6 +30,8 @@ docker compose up -d --build --wait
 
 On a fresh checkout, Compose creates the local environment file, installs locked PHP/Node dependencies, builds Vue assets, applies migrations, and waits until Laravel is healthy. Open the application at `http://localhost:8080`.
 
+After adding a new migration during continued work, run `docker compose exec app php artisan migrate`.
+
 For live Vue updates during active frontend work, run `docker compose exec app npm run dev`; port `5173` is Vite's asset-development server, not the application URL. The local environment file is ignored by Git.
 
 ## Deployment

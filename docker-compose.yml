@@ -5,6 +5,8 @@ services:
       dockerfile: docker/php/Dockerfile
     working_dir: /var/www/html
     command: php artisan serve --host=0.0.0.0 --port=8000
+    environment:
+      TZ: UTC
     volumes:
       - ./laravel:/var/www/html
     ports:
@@ -23,6 +25,7 @@ services:
   db:
     image: mysql:8.4
     environment:
+      TZ: UTC
       MYSQL_DATABASE: geostatistical_keys
       MYSQL_USER: laravel
       MYSQL_PASSWORD: secret

@@ -18,17 +18,30 @@ app --> inegi : GET /mgee\nGET /mgem/{state_code}
 @enduml
 ```
 
-## Data boundary
+## Entity relationship diagram
 
-`states` is the only persisted domain table in this version.
+`states` is the only persisted domain table in this version. This diagram is the schema authority.
 
-| Column | INEGI field | Constraint |
-| --- | --- | --- |
-| `state_code` | `cve_ent` | `char(2)`, unique; preserves leading zeroes |
-| `name` | `nomgeo` | non-null |
-| `total_population` | `pob_total` | unsigned integer, non-null |
+```plantuml
+@startuml
+title States schema
+entity states {
+  * id : unsigned bigint <<PK>>
+  --
+  * state_code : char(2) <<UQ>>
+  * name : varchar(120)
+  * total_population : unsigned bigint
+  --
+  created_at : timestamp UTC
+  updated_at : timestamp UTC
+  deleted_at : timestamp UTC nullable
+}
+@enduml
+```
 
-Both INEGI endpoints return records in `datos`. Map only the fields above for states. For municipalities, return mapped `cve_ent`, `cve_mun`, `nomgeo`, and `pob_total`; do not persist the response or its metadata. If persistence is later needed, use the English plural `municipalities` table.
+Both INEGI endpoints return records in `datos`. Map `cve_ent`, `nomgeo`, and `pob_total` to the `states` fields. For municipalities, return mapped `cve_ent`, `cve_mun`, `nomgeo`, and `pob_total`; do not persist the response or its metadata. If persistence is later needed, use the English plural `municipalities` table.
+
+All timestamps are stored and exposed as UTC. The Vue client converts them for display using the browser timezone.
 
 ## Sequences
 
