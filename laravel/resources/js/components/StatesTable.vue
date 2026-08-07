@@ -2,11 +2,13 @@
 import { onBeforeUnmount, onMounted, ref } from 'vue';
 import DataTable from 'datatables.net-vue3';
 import DataTablesLib from 'datatables.net-bs5';
+import { useMunicipalityStore } from '../stores/municipalities';
 
 DataTable.use(DataTablesLib);
 
 const population = new Intl.NumberFormat('es-MX');
 const table = ref();
+const municipalityStore = useMunicipalityStore();
 
 let activeRow;
 let activeRowNode;
@@ -106,6 +108,14 @@ function municipalityTableElement() {
 }
 
 async function loadMunicipalities(state, row, content) {
+    const cached = municipalityStore.cached(state.state_code);
+
+    if (cached) {
+        renderMunicipalities(content, cached);
+
+        return;
+    }
+
     municipalityRequest = new AbortController();
     message(content, 'Loading municipalities...');
 
@@ -124,22 +134,12 @@ async function loadMunicipalities(state, row, content) {
             return;
         }
 
-        if (!Array.isArray(municipalities) || municipalities.length === 0) {
-            message(content, 'No municipalities are available for this state.');
-            return;
+        if (!Array.isArray(municipalities)) {
+            throw new Error('Unable to load municipalities.');
         }
 
-        const nestedTable = municipalityTableElement();
-        content.replaceChildren(nestedTable);
-        municipalityTable = new DataTablesLib(nestedTable, {
-            columns: municipalityColumns,
-            data: municipalities,
-            order: [[0, 'asc']],
-            pageLength: 10,
-            language: {
-                emptyTable: 'No municipalities are available for this state.',
-            },
-        });
+        municipalityStore.remember(state.state_code, municipalities);
+        renderMunicipalities(content, municipalities);
     } catch (error) {
         if (error.name === 'AbortError' || row.node() !== activeRowNode) {
             return;
@@ -147,6 +147,26 @@ async function loadMunicipalities(state, row, content) {
 
         message(content, 'Municipalities could not be loaded.', () => loadMunicipalities(state, row, content));
     }
+}
+
+function renderMunicipalities(content, municipalities) {
+    if (municipalities.length === 0) {
+        message(content, 'No municipalities are available for this state.');
+
+        return;
+    }
+
+    const nestedTable = municipalityTableElement();
+    content.replaceChildren(nestedTable);
+    municipalityTable = new DataTablesLib(nestedTable, {
+        columns: municipalityColumns,
+        data: municipalities,
+        order: [[0, 'asc']],
+        pageLength: 10,
+        language: {
+            emptyTable: 'No municipalities are available for this state.',
+        },
+    });
 }
 
 function toggleMunicipalities(row) {

@@ -6,7 +6,7 @@
 @startuml
 title Geostatistical Keys - System Context
 actor "Recruiter" as recruiter
-rectangle "Vue 3 + Bootstrap\nPublic web page" as ui
+rectangle "Vue 3 + Pinia + Bootstrap\nPublic web page" as ui
 rectangle "Laravel 13" as app
 rectangle "MySQL 8.4\nstates" as db
 rectangle "INEGI Geo Catalog" as inegi
@@ -119,8 +119,8 @@ ui --> User : render inline child DataTable
 - Keep INEGI HTTP calls in a single-purpose service with finite timeouts.
 - Use a unique index and upsert so imports are idempotent.
 - Keep municipalities live-only in Laravel: no municipality migration,
-  server-side cache, or write endpoint is in scope. Pinia may keep a browser
-  cache for at most one day and persist the color preference.
+  server-side cache, or write endpoint is in scope. Pinia keeps municipality
+  responses in browser storage for at most one day.
 - Whitelist sort fields and validate pagination/search inputs.
 - Group public endpoints beneath the `/api/v1` prefix so future incompatible
   API changes have an explicit version boundary.
