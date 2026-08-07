@@ -25,7 +25,7 @@ onMounted(async () => {
 <template>
     <div class="app-shell" :class="{ 'app-shell--dark': dark }">
         <header class="app-header">
-            <div class="container d-flex align-items-center justify-content-between py-3">
+            <div class="app-header__content container d-flex align-items-center justify-content-between py-3">
                 <a class="brand" href="/" aria-label="Geostatistical Keys home">
                     <span class="brand-mark">MX</span>
                     <strong>Geostatistical Keys</strong>
@@ -46,7 +46,7 @@ onMounted(async () => {
             </div>
         </header>
 
-        <main class="container py-5">
+        <main class="app-main container py-5">
             <section class="catalog-intro mb-4">
                 <p class="eyebrow">Territorial reference · Mexico</p>
                 <div class="row align-items-end g-4">

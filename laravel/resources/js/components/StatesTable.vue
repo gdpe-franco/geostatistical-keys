@@ -156,8 +156,11 @@ function renderMunicipalities(content, municipalities) {
         return;
     }
 
+    const tableContainer = document.createElement('div');
+    tableContainer.className = 'table-responsive';
     const nestedTable = municipalityTableElement();
-    content.replaceChildren(nestedTable);
+    tableContainer.append(nestedTable);
+    content.replaceChildren(tableContainer);
     municipalityTable = new DataTablesLib(nestedTable, {
         columns: municipalityColumns,
         data: municipalities,
@@ -224,19 +227,21 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-    <DataTable
-        ref="table"
-        class="table table-striped table-hover align-middle mb-0"
-        :columns="columns"
-        :options="options"
-    >
-        <thead>
-            <tr>
-                <th>State code</th>
-                <th>State name</th>
-                <th>Short name</th>
-                <th>Total population</th>
-            </tr>
-        </thead>
-    </DataTable>
+    <div class="table-responsive">
+        <DataTable
+            ref="table"
+            class="table table-striped table-hover align-middle mb-0"
+            :columns="columns"
+            :options="options"
+        >
+            <thead>
+                <tr>
+                    <th>State code</th>
+                    <th>State name</th>
+                    <th>Short name</th>
+                    <th>Total population</th>
+                </tr>
+            </thead>
+        </DataTable>
+    </div>
 </template>

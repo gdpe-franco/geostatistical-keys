@@ -215,6 +215,18 @@ body {
     padding: 1rem 1.5rem;
 }
 
+.data-surface .table-responsive {
+    margin: 0;
+}
+
+.data-surface .table-responsive table {
+    min-width: 42rem;
+}
+
+.municipalities-detail .table {
+    min-width: 34rem;
+}
+
 .data-surface tr.municipalities-detail > td {
     padding: 0;
 }
@@ -290,8 +302,23 @@ body {
 }
 
 @media (max-width: 575.98px) {
+    .app-header__content {
+        align-items: flex-start !important;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
     .source-chip {
         display: none;
+    }
+
+    .header-actions {
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .app-main {
+        padding-block: 2rem !important;
     }
 
     .catalog-intro {
@@ -305,6 +332,34 @@ body {
     }
 
     .data-surface .dt-container {
-        padding: 1rem;
+        padding: 0.75rem 1rem;
+    }
+
+    .municipalities-detail__content {
+        padding: 0.75rem;
+    }
+
+    .data-surface .dt-search label {
+        display: block;
+    }
+
+    .data-surface .dt-search input {
+        margin: 0.35rem 0 0;
+        max-width: 100%;
+        width: 100%;
+    }
+}
+
+@media (min-width: 576px) and (max-width: 991.98px) {
+    .catalog-intro {
+        padding-block: 2.5rem;
+    }
+
+    .data-surface__header {
+        padding-inline: 1.25rem;
+    }
+
+    .data-surface .dt-container {
+        padding-inline: 1.25rem;
     }
 }
