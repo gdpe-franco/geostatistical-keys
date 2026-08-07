@@ -11,6 +11,7 @@ Deliver a public Laravel application that imports Mexico's 32 states from INEGI,
 | Application | Laravel 13 in `laravel/`, Vue 3 + Pinia, Bootstrap 5, MySQL 8.4 |
 | Stored data | English-named `states` table |
 | Municipality data | Read from INEGI when selected, then cached in browser storage for one day; never persisted to MySQL |
+| Color preference | Pinia persists the selected light or dark mode in browser storage |
 | State listing | Bootstrap-styled DataTables with code, name, INEGI short name, formatted population, pagination, search, and ordering |
 | Responsive design | Bootstrap-responsive layout and tables from small mobile to desktop |
 | Import access | Artisan command |

@@ -120,7 +120,8 @@ ui --> User : render inline child DataTable
 - Use a unique index and upsert so imports are idempotent.
 - Keep municipalities live-only in Laravel: no municipality migration,
   server-side cache, or write endpoint is in scope. Pinia keeps municipality
-  responses in browser storage for at most one day.
+  responses in browser storage for at most one day and persists the selected
+  color preference.
 - Whitelist sort fields and validate pagination/search inputs.
 - Group public endpoints beneath the `/api/v1` prefix so future incompatible
   API changes have an explicit version boundary.

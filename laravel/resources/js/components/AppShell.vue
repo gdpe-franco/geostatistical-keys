@@ -1,7 +1,8 @@
 <script setup>
 import { onMounted, ref } from 'vue';
+import { usePreferenceStore } from '../stores/preferences';
 
-const dark = ref(false);
+const preferences = usePreferenceStore();
 const total = ref(null);
 const source = ref(null);
 
@@ -23,7 +24,7 @@ onMounted(async () => {
 </script>
 
 <template>
-    <div class="app-shell" :class="{ 'app-shell--dark': dark }">
+    <div class="app-shell" :class="{ 'app-shell--dark': preferences.dark }">
         <header class="app-header">
             <div class="app-header__content container d-flex align-items-center justify-content-between py-3">
                 <a class="brand" href="/" aria-label="Geostatistical Keys home">
@@ -35,12 +36,12 @@ onMounted(async () => {
                     <button
                         class="theme-toggle"
                         type="button"
-                        :aria-label="dark ? 'Use light mode' : 'Use dark mode'"
-                        :aria-pressed="dark"
-                        @click="dark = !dark"
+                        :aria-label="preferences.dark ? 'Use light mode' : 'Use dark mode'"
+                        :aria-pressed="preferences.dark"
+                        @click="preferences.toggleTheme()"
                     >
-                        <span aria-hidden="true">{{ dark ? '☀' : '☾' }}</span>
-                        {{ dark ? 'Light' : 'Dark' }}
+                        <span aria-hidden="true">{{ preferences.dark ? '☀' : '☾' }}</span>
+                        {{ preferences.dark ? 'Light' : 'Dark' }}
                     </button>
                 </div>
             </div>
