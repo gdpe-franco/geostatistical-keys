@@ -1,0 +1,12 @@
+/.env
+/laravel/.env
+/tasks/
+/laravel/vendor
+/laravel/node_modules
+/laravel/public/build
+/laravel/.phpunit.result.cache
+/laravel/storage/*.key
+/laravel/storage/logs/*
+!/laravel/storage/logs/.gitignore
+/laravel/bootstrap/cache/*.php
+!/laravel/bootstrap/cache/.gitignore
