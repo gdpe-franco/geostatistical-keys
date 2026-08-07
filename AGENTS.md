@@ -17,7 +17,7 @@
 - Define database tables, constraints, timestamp behavior, and lifecycle fields in the architecture ER diagrams; treat them as the schema authority.
 - Validate all request input; whitelist sortable columns; use finite outbound HTTP timeouts.
 - Never commit `.env`, credentials, generated dependencies, or build output.
-- Follow Laravel conventions: use migrations, Eloquent models/scopes, single-purpose services, Artisan commands, controllers, and Form Requests at HTTP boundaries. Do not add a repository abstraction over Eloquent without a concrete need.
+- Follow Laravel conventions: use migrations, Eloquent models/scopes, single-purpose services, Artisan commands, controllers, Form Requests at HTTP boundaries, and readonly DTOs for consumed external response shapes. Do not add a repository abstraction over Eloquent without a concrete need.
 - Commit subjects use `<type>: <imperative summary>` with no scope, task identifier, body, or footer.
 
 ## UI and verification
@@ -26,4 +26,5 @@
 - Prefer Bootstrap and existing dependencies over new UI libraries.
 - Keep tests concise and behavior-focused: cover the happy path and one meaningful failure path. Use data providers for equivalent input variations, constants for routes and repeated values, and remove redundant cases.
 - Mirror application paths in tests after the test type; for example, `app/Models/State.php` maps to `tests/Unit/Models/StateTest.php`.
+- Keep test API fixtures independent from production DTO field constants so they can detect an incorrect external-field mapping.
 - After relevant changes, run `docker compose config --quiet`, `docker compose up -d --wait`, and `npm run build` from `laravel/`.

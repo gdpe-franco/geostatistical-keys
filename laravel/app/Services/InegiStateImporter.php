@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\DataTransferObjects\InegiStateData;
 use App\Models\State;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
@@ -26,15 +27,15 @@ class InegiStateImporter
             throw new UnexpectedValueException('INEGI returned an invalid state list.');
         }
 
-        $states = array_map($this->mapState(...), $data);
+        $states = array_map(InegiStateData::fromApi(...), $data);
 
-        if (count(array_unique(array_column($states, 'state_code'))) !== self::EXPECTED_STATE_COUNT) {
+        if (count(array_unique(array_map(static fn (InegiStateData $state): string => $state->stateCode, $states))) !== self::EXPECTED_STATE_COUNT) {
             throw new UnexpectedValueException('INEGI returned duplicate state codes.');
         }
 
         $timestamp = now();
         $records = array_map(
-            static fn (array $state): array => $state + [
+            static fn (InegiStateData $state): array => $state->toStateAttributes() + [
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp,
                 'deleted_at' => null,
@@ -49,28 +50,5 @@ class InegiStateImporter
         ));
 
         return count($records);
-    }
-
-    /**
-     * @param  array<string, mixed>  $state
-     * @return array{name: string, state_code: string, total_population: int}
-     */
-    private function mapState(array $state): array
-    {
-        $code = $state['cve_ent'] ?? null;
-        $name = $state['nomgeo'] ?? null;
-        $population = $state['pob_total'] ?? null;
-
-        if (! is_string($code) || ! preg_match('/^\d{2}$/', $code)
-            || ! is_string($name) || ($name = trim($name)) === '' || mb_strlen($name) > 120
-            || (! is_string($population) && ! is_int($population)) || ! ctype_digit((string) $population)) {
-            throw new UnexpectedValueException('INEGI returned an invalid state record.');
-        }
-
-        return [
-            'state_code' => $code,
-            'name' => $name,
-            'total_population' => (int) $population,
-        ];
     }
 }

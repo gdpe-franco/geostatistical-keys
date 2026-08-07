@@ -84,7 +84,9 @@ ui --> User : render list
 ## Engineering decisions
 
 - Keep one Laravel application and a single public Vue page.
-- Use an INEGI client service, HTTP timeouts, and mapped responses to isolate the untrusted upstream API.
+- The geographic scope is Mexico only. INEGI classes and two-character state codes intentionally model that fixed scope; introduce countries, composite geographic keys, and provider abstractions only when country selection becomes a requirement.
+- Use endpoint-specific readonly DTOs to validate and map consumed INEGI response shapes before services persist or return them; the DTO is the external-data contract.
+- Keep INEGI HTTP calls in a single-purpose service with finite timeouts.
 - Use a unique index and upsert so imports are idempotent.
 - Whitelist sort fields and validate pagination/search inputs.
 - Keep MySQL private in deployment and secrets out of Git.
