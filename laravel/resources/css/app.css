@@ -1,2 +1,205 @@
 @import 'bootstrap/dist/css/bootstrap.min.css';
 @import 'datatables.net-bs5/css/dataTables.bootstrap5.css';
+
+:root {
+    --app-accent: #8e5a7a;
+    --app-background: #f8f7f8;
+    --app-border: #e8dce5;
+    --app-caption: #8b7482;
+    --app-hover: #f1e5ed;
+    --app-surface: #fff;
+    --app-text: #372535;
+    background: var(--app-background);
+    color: var(--app-text);
+    font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+}
+
+body {
+    background:
+        linear-gradient(90deg, rgb(142 90 122 / 0.04) 1px, transparent 1px),
+        linear-gradient(rgb(142 90 122 / 0.04) 1px, transparent 1px),
+        var(--app-background);
+    background-size: 2rem 2rem;
+    min-width: 320px;
+}
+
+.app-shell {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.app-header {
+    background: rgb(255 255 255 / 0.88);
+    border-bottom: 1px solid var(--app-border);
+    backdrop-filter: blur(0.75rem);
+}
+
+.brand {
+    align-items: center;
+    color: var(--app-text);
+    display: inline-flex;
+    gap: 0.75rem;
+    text-decoration: none;
+}
+
+.brand strong,
+.brand small {
+    display: block;
+}
+
+.brand strong {
+    font-size: 0.95rem;
+}
+
+.brand small,
+.data-surface__header small {
+    color: var(--app-caption);
+    font-size: 0.75rem;
+}
+
+.brand-mark {
+    align-items: center;
+    background: var(--app-accent);
+    border-radius: 0.7rem;
+    color: #fff;
+    display: inline-flex;
+    font-size: 0.72rem;
+    font-weight: 800;
+    height: 2.35rem;
+    justify-content: center;
+    letter-spacing: 0.08em;
+    width: 2.35rem;
+}
+
+.source-chip {
+    align-items: center;
+    color: var(--app-caption);
+    display: inline-flex;
+    font-size: 0.75rem;
+    font-weight: 700;
+    gap: 0.45rem;
+}
+
+.source-chip span {
+    background: #719d74;
+    border-radius: 50%;
+    height: 0.5rem;
+    width: 0.5rem;
+}
+
+.catalog-intro {
+    padding: 1.75rem 0;
+}
+
+.eyebrow {
+    color: var(--app-accent);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.6rem;
+    text-transform: uppercase;
+}
+
+.catalog-intro h1,
+.data-surface h2 {
+    color: var(--app-text);
+    font-weight: 750;
+}
+
+.catalog-intro h1 {
+    font-size: clamp(2.1rem, 5vw, 4rem);
+    letter-spacing: -0.055em;
+    line-height: 0.98;
+    max-width: 11ch;
+}
+
+.catalog-intro .lead {
+    color: var(--app-caption);
+    max-width: 39rem;
+}
+
+.catalog-stat {
+    border-left: 2px solid var(--app-accent);
+    padding-left: 1rem;
+}
+
+.catalog-stat strong,
+.catalog-stat span {
+    display: block;
+}
+
+.catalog-stat strong {
+    color: var(--app-accent);
+    font-size: 2.5rem;
+    letter-spacing: -0.08em;
+    line-height: 1;
+}
+
+.catalog-stat span {
+    color: var(--app-caption);
+    font-size: 0.82rem;
+    margin-top: 0.35rem;
+}
+
+.data-surface {
+    background: var(--app-surface);
+    border: 1px solid var(--app-border);
+    border-radius: 1rem;
+    box-shadow: 0 1.5rem 3rem rgb(55 37 53 / 0.06);
+    overflow: hidden;
+}
+
+.data-surface__header {
+    align-items: end;
+    border-bottom: 1px solid var(--app-border);
+    display: flex;
+    justify-content: space-between;
+    padding: 1.5rem;
+}
+
+.data-surface h2 {
+    font-size: 1.35rem;
+    margin: 0;
+}
+
+.data-surface .dt-container {
+    padding: 1rem 1.5rem;
+}
+
+.data-surface table {
+    --bs-table-striped-bg: var(--app-hover);
+    --bs-table-hover-bg: var(--app-hover);
+}
+
+.data-surface th {
+    color: var(--app-caption);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+}
+
+.app-footer {
+    color: var(--app-caption);
+    font-size: 0.75rem;
+    margin-top: auto;
+}
+
+@media (max-width: 575.98px) {
+    .source-chip {
+        display: none;
+    }
+
+    .catalog-intro {
+        padding-top: 0.5rem;
+    }
+
+    .data-surface__header {
+        align-items: start;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .data-surface .dt-container {
+        padding: 1rem;
+    }
+}
