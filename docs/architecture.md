@@ -77,7 +77,7 @@ ui -> app : GET /api/v1/states/{state_code}/municipalities
 app -> inegi : GET /mgem/{state_code}
 inegi --> app : datos[]
 app --> ui : mapped municipalities
-ui --> User : render list
+ui --> User : render inline child DataTable
 @enduml
 ```
 

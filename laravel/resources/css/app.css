@@ -215,6 +215,37 @@ body {
     padding: 1rem 1.5rem;
 }
 
+.data-surface tr.municipalities-detail > td {
+    padding: 0;
+}
+
+.municipalities-detail__content {
+    background: var(--app-background);
+    border-block: 1px solid var(--app-border);
+    padding: 1rem;
+}
+
+.municipalities-detail .dt-container {
+    padding: 0;
+}
+
+.municipalities-detail__message {
+    color: var(--app-caption);
+    margin: 0;
+}
+
+.municipalities-detail__retry {
+    background: var(--app-accent);
+    border: 0;
+    border-radius: 0.4rem;
+    color: #fff;
+    font: inherit;
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin-top: 0.75rem;
+    padding: 0.4rem 0.65rem;
+}
+
 .data-surface table {
     --bs-table-striped-bg: var(--app-hover);
     --bs-table-hover-bg: var(--app-hover);

@@ -10,9 +10,9 @@ Deliver a public Laravel application that imports Mexico's 32 states from INEGI,
 | --- | --- |
 | Application | Laravel 13 in `laravel/`, Vue 3, Bootstrap 5, MySQL 8.4 |
 | Stored data | English-named `states` table |
-| Municipality data | Read from INEGI when selected; do not persist yet |
+| Municipality data | Read from INEGI when selected and show inline; do not persist yet |
 | State listing | Bootstrap-styled DataTables with pagination, search, ordering, and formatted population |
-| Import access | Artisan command and public, rate-limited refresh button |
+| Import access | Artisan command |
 | Access | One public web page; no login or registration flow |
 | Delivery | Source repository and a browsable URL |
 
