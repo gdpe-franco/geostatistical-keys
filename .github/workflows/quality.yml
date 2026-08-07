@@ -1,0 +1,51 @@
+name: Quality
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    working-directory: laravel
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: pdo_sqlite
+          tools: composer:v2
+
+      - id: composer-cache
+        run: echo "path=$(composer config cache-files-dir)" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.path }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('laravel/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - run: composer install --no-interaction --prefer-dist --no-progress
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: laravel/package-lock.json
+
+      - run: npm ci
+      - run: composer lint
+      - run: composer analyse
+      - run: npm run lint
+      - run: php artisan test
+      - run: npm run build

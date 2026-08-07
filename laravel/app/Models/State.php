@@ -24,6 +24,9 @@ class State extends Model
         ];
     }
 
+    /**
+     * @param  Builder<State>  $query
+     */
     public function scopeMatching(Builder $query, ?string $search): void
     {
         if ($search === null || $search === '') {

@@ -37,3 +37,22 @@ After adding a new migration during continued work, run `docker compose exec app
 For live Vue updates during active frontend work, run `docker compose exec app npm run dev`; port `5173` is Vite's asset-development server, not the application URL. The local environment file is ignored by Git.
 
 ## Deployment
+
+GitHub Actions validates pull requests to `main` and pushes to `main` with the
+same quality commands used locally. It uses the in-memory SQLite test
+configuration from `phpunit.xml`; no deployment or production database
+credentials are available to the workflow.
+
+Run the equivalent checks from `laravel/` before opening a pull request:
+
+```bash
+composer lint
+composer analyse
+npm run lint
+php artisan test
+npm run build
+```
+
+Laravel Cloud is the selected production platform. Its provisioning and
+automatic deployment remain Phase 5 work; the workflow above is only the
+quality gate.
