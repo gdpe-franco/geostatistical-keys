@@ -14,13 +14,23 @@ class InegiMunicipalityCatalogTest extends TestCase
 
     public function test_reads_municipalities(): void
     {
-        Http::fake([self::endpoint() => Http::response(['datos' => [self::municipality()]])]);
+        $withoutPopulation = self::municipality();
+        unset($withoutPopulation['pob_total']);
 
-        $this->assertSame([[
-            'municipality_code' => '001',
-            'name' => 'Aguascalientes',
-            'total_population' => 948990,
-        ]], app(InegiMunicipalityCatalog::class)->forState(self::STATE_CODE));
+        Http::fake([self::endpoint() => Http::response(['datos' => [self::municipality(), $withoutPopulation]])]);
+
+        $this->assertSame([
+            [
+                'municipality_code' => '001',
+                'name' => 'Aguascalientes',
+                'total_population' => 948990,
+            ],
+            [
+                'municipality_code' => '001',
+                'name' => 'Aguascalientes',
+                'total_population' => null,
+            ],
+        ], app(InegiMunicipalityCatalog::class)->forState(self::STATE_CODE));
     }
 
     /**
@@ -47,10 +57,14 @@ class InegiMunicipalityCatalogTest extends TestCase
         $otherState = self::municipality();
         $otherState['cve_ent'] = '02';
 
+        $invalidPopulation = self::municipality();
+        $invalidPopulation['pob_total'] = 'unknown';
+
         return [
             'missing records' => [[]],
             'invalid record' => [['datos' => ['invalid']]],
             'missing name' => [['datos' => [$missingName]]],
+            'invalid population' => [['datos' => [$invalidPopulation]]],
             'other state' => [['datos' => [$otherState]]],
         ];
     }

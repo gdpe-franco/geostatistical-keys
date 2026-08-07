@@ -19,7 +19,7 @@ final readonly class InegiMunicipalityData
         public string $stateCode,
         public string $municipalityCode,
         public string $name,
-        public int $totalPopulation,
+        public ?int $totalPopulation,
     ) {}
 
     /**
@@ -30,9 +30,10 @@ final readonly class InegiMunicipalityData
         $stateCode = InegiData::code($municipality[self::STATE_CODE] ?? null, 2);
         $municipalityCode = InegiData::code($municipality[self::MUNICIPALITY_CODE] ?? null, 3);
         $name = InegiData::name($municipality[self::NAME] ?? null);
-        $population = InegiData::population($municipality[self::TOTAL_POPULATION] ?? null);
+        $populationValue = $municipality[self::TOTAL_POPULATION] ?? null;
+        $population = $populationValue === null ? null : InegiData::population($populationValue);
 
-        if ($stateCode === null || $municipalityCode === null || $name === null || $population === null) {
+        if ($stateCode === null || $municipalityCode === null || $name === null || ($populationValue !== null && $population === null)) {
             throw new UnexpectedValueException('INEGI returned an invalid municipality record.');
         }
 
@@ -40,7 +41,7 @@ final readonly class InegiMunicipalityData
     }
 
     /**
-     * @return array{municipality_code: string, name: string, total_population: int}
+     * @return array{municipality_code: string, name: string, total_population: int|null}
      */
     public function toArray(): array
     {

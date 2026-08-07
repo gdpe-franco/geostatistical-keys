@@ -11,7 +11,7 @@ class InegiMunicipalityCatalog
     public const MUNICIPALITIES_ENDPOINT = 'https://gaia.inegi.org.mx/wscatgeo/v2/mgem/';
 
     /**
-     * @return list<array{municipality_code: string, name: string, total_population: int}>
+     * @return list<array{municipality_code: string, name: string, total_population: int|null}>
      */
     public function forState(string $stateCode): array
     {

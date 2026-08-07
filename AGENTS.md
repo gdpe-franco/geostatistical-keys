@@ -24,6 +24,8 @@
 
 - Vue is the default interface. Keep only the minimal Blade Vite mount shell; do not add Blade screens.
 - Prefer Bootstrap and existing dependencies over new UI libraries.
+- When introduced, use Pinia only for the one-day browser municipality cache
+  and color preference; MySQL remains limited to the states catalog.
 - Keep tests concise and behavior-focused: cover the happy path and one meaningful failure path. Use data providers for equivalent input variations, constants for routes and repeated values, and remove redundant cases.
 - Mirror application paths in tests after the test type; for example, `app/Models/State.php` maps to `tests/Unit/Models/StateTest.php`.
 - Keep test API fixtures independent from production DTO field constants so they can detect an incorrect external-field mapping.

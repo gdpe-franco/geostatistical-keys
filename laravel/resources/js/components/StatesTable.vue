@@ -13,14 +13,20 @@ let activeRowNode;
 let municipalityTable;
 let municipalityRequest;
 
+function formatPopulation(value, type) {
+    if (!['display', 'filter'].includes(type)) {
+        return value;
+    }
+
+    return value === null ? '—' : population.format(Number(value));
+}
+
 const columns = [
     { data: 'state_code' },
     { data: 'name' },
     {
         data: 'total_population',
-        render: (value, type) => ['display', 'filter'].includes(type)
-            ? population.format(Number(value))
-            : value,
+        render: formatPopulation,
     },
 ];
 
@@ -46,9 +52,7 @@ const municipalityColumns = [
     { data: 'name' },
     {
         data: 'total_population',
-        render: (value, type) => ['display', 'filter'].includes(type)
-            ? population.format(Number(value))
-            : value,
+        render: formatPopulation,
     },
 ];
 
@@ -167,6 +171,10 @@ function toggleMunicipalities(row) {
 }
 
 function activateRow(event) {
+    if (event.target.closest('.municipalities-detail')) {
+        return;
+    }
+
     const row = table.value.dt.row(event.currentTarget);
 
     toggleMunicipalities(row);

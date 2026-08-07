@@ -39,9 +39,38 @@ entity states {
 @enduml
 ```
 
-Both INEGI endpoints return records in `datos`. Map `cve_ent`, `nomgeo`, and `pob_total` to the `states` fields. For municipalities, validate `cve_ent` against the selected state and map `cve_mun`, `nomgeo`, and `pob_total` to `municipality_code`, `name`, and `total_population`; do not persist the response or its metadata. If persistence is later needed, use the English plural `municipalities` table.
+Both INEGI endpoints return records in `datos`. Map `cve_ent`, `nomgeo`, and `pob_total` to the `states` fields. For municipalities, validate `cve_ent` against the selected state and map `cve_mun`, `nomgeo`, and the optional `pob_total` to `municipality_code`, `name`, and `total_population`; an absent municipal population remains `null`. Do not persist the response or its metadata in the current version.
 
 All timestamps are stored and exposed as UTC. The Vue client converts them for display using the browser timezone.
+
+## Future municipality schema reference
+
+This reference does not expand the current project scope or authorize a
+`municipalities` migration.
+
+```plantuml
+@startuml
+title Future municipality schema
+entity states <<existing>> {
+  * id : unsigned bigint <<PK>>
+}
+entity municipalities {
+  * id : unsigned bigint <<PK>>
+  --
+  * state_id : unsigned bigint <<FK, UQ#1>>
+  * municipality_code : char(3) <<UQ#2>>
+  * name : varchar(120)
+  total_population : unsigned bigint nullable
+  --
+  created_at : timestamp UTC
+  updated_at : timestamp UTC
+  deleted_at : timestamp UTC nullable
+}
+states ||--o{ municipalities
+@enduml
+```
+
+The nullable population reflects the current INEGI response.
 
 ## Sequences
 
@@ -88,6 +117,9 @@ ui --> User : render inline child DataTable
 - Use endpoint-specific readonly DTOs to validate and map consumed INEGI response shapes before services persist or return them; the DTO is the external-data contract.
 - Keep INEGI HTTP calls in a single-purpose service with finite timeouts.
 - Use a unique index and upsert so imports are idempotent.
+- Keep municipalities live-only in Laravel: no municipality migration,
+  server-side cache, or write endpoint is in scope. Pinia may keep a browser
+  cache for at most one day and persist the color preference.
 - Whitelist sort fields and validate pagination/search inputs.
 - Group public endpoints beneath the `/api/v1` prefix so future incompatible
   API changes have an explicit version boundary.

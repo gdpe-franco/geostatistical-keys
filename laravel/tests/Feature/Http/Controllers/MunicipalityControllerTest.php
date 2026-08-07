@@ -35,7 +35,9 @@ class MunicipalityControllerTest extends TestCase
         $state = $this->state();
         Http::fake([self::endpoint() => Http::response([], 500)]);
 
-        $this->getJson(route(self::ROUTE, $state))->assertServerError();
+        $this->getJson(route(self::ROUTE, $state))
+            ->assertStatus(502)
+            ->assertJson(['message' => 'Municipalities are temporarily unavailable.']);
     }
 
     private function state(): State
