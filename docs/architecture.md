@@ -30,6 +30,7 @@ entity states {
   --
   * state_code : char(2) <<UQ>>
   * name : varchar(120)
+  * short_name : varchar(20)
   * total_population : unsigned bigint
   --
   created_at : timestamp UTC
@@ -39,7 +40,7 @@ entity states {
 @enduml
 ```
 
-Both INEGI endpoints return records in `datos`. Map `cve_ent`, `nomgeo`, and `pob_total` to the `states` fields. For municipalities, validate `cve_ent` against the selected state and map `cve_mun`, `nomgeo`, and the optional `pob_total` to `municipality_code`, `name`, and `total_population`; an absent municipal population remains `null`. Do not persist the response or its metadata in the current version.
+Both INEGI endpoints return records in `datos`. Map `cve_ent`, `nomgeo`, `nom_abrev`, and `pob_total` to the `states` fields. For municipalities, validate `cve_ent` against the selected state and map `cve_mun`, `nomgeo`, and the optional `pob_total` to `municipality_code`, `name`, and `total_population`; an absent municipal population remains `null`. Do not persist the response or its metadata in the current version.
 
 All timestamps are stored and exposed as UTC. The Vue client converts them for display using the browser timezone.
 

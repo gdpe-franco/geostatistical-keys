@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-#[Fillable(['state_code', 'name', 'total_population'])]
+#[Fillable(['state_code', 'name', 'short_name', 'total_population'])]
 class State extends Model
 {
     use SoftDeletes;
@@ -32,7 +32,8 @@ class State extends Model
 
         $query->where(function (Builder $query) use ($search): void {
             $query->where('state_code', 'like', "%{$search}%")
-                ->orWhere('name', 'like', "%{$search}%");
+                ->orWhere('name', 'like', "%{$search}%")
+                ->orWhere('short_name', 'like', "%{$search}%");
         });
     }
 }

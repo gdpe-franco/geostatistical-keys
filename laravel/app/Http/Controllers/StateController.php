@@ -31,7 +31,7 @@ class StateController extends Controller
                 ->orderBy($request->sortColumn(), $request->sortDirection())
                 ->offset($request->start())
                 ->limit($request->length())
-                ->get(['state_code', 'name', 'total_population']),
+                ->get(['state_code', 'name', 'short_name', 'total_population']),
         ]);
     }
 }

@@ -46,7 +46,7 @@ class InegiStateImporter
         DB::transaction(fn () => State::withTrashed()->upsert(
             $records,
             ['state_code'],
-            ['name', 'total_population', 'updated_at', 'deleted_at'],
+            ['name', 'short_name', 'total_population', 'updated_at', 'deleted_at'],
         ));
 
         return count($records);

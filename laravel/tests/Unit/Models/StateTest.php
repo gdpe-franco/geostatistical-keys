@@ -15,6 +15,7 @@ class StateTest extends TestCase
         $state = State::query()->create([
             'state_code' => '01',
             'name' => 'Aguascalientes',
+            'short_name' => 'Ags.',
             'total_population' => 1425607,
         ]);
 

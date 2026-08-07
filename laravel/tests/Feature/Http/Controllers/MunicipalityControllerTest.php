@@ -45,6 +45,7 @@ class MunicipalityControllerTest extends TestCase
         return State::query()->create([
             'state_code' => self::STATE_CODE,
             'name' => 'Aguascalientes',
+            'short_name' => 'Ags.',
             'total_population' => 1425607,
         ]);
     }

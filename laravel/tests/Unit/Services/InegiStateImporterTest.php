@@ -32,6 +32,7 @@ class InegiStateImporterTest extends TestCase
         $this->assertSame(self::STATE_COUNT, $importer->import());
         $this->assertDatabaseCount('states', self::STATE_COUNT);
         $this->assertSame(1, State::query()->where('state_code', '01')->value('total_population'));
+        $this->assertSame('S1', State::query()->where('state_code', '01')->value('short_name'));
     }
 
     /**
@@ -43,6 +44,7 @@ class InegiStateImporterTest extends TestCase
         State::query()->create([
             'state_code' => '01',
             'name' => 'Existing state',
+            'short_name' => 'Existing',
             'total_population' => 1,
         ]);
         Http::fake([InegiStateImporter::STATES_ENDPOINT => Http::response($payload)]);
@@ -64,18 +66,22 @@ class InegiStateImporterTest extends TestCase
         $missingName = self::states();
         unset($missingName[0]['nomgeo']);
 
+        $missingShortName = self::states();
+        unset($missingShortName[0]['nom_abrev']);
+
         $invalidPopulation = self::states();
         $invalidPopulation[0]['pob_total'] = 'unknown';
 
         return [
             'missing records' => [[]],
             'missing name' => [['datos' => $missingName]],
+            'missing short name' => [['datos' => $missingShortName]],
             'invalid population' => [['datos' => $invalidPopulation]],
         ];
     }
 
     /**
-     * @return list<array{cve_ent: string, nomgeo: string, pob_total: string}>
+     * @return list<array{cve_ent: string, nomgeo: string, nom_abrev: string, pob_total: string}>
      */
     private static function states(): array
     {
@@ -83,6 +89,7 @@ class InegiStateImporterTest extends TestCase
             static fn (int $number): array => [
                 'cve_ent' => str_pad((string) $number, 2, '0', STR_PAD_LEFT),
                 'nomgeo' => "State {$number}",
+                'nom_abrev' => "S{$number}",
                 'pob_total' => (string) $number,
             ],
             range(1, self::STATE_COUNT),

@@ -19,8 +19,8 @@ class StateControllerTest extends TestCase
 
     public function test_summarizes_states(): void
     {
-        $this->state('01', 'Alpha', 10);
-        $this->state('02', 'Deleted', 20)->delete();
+        $this->state('01', 'Alpha', 'A', 10);
+        $this->state('02', 'Deleted', 'D', 20)->delete();
         Http::fake([InegiStateCatalog::STATES_ENDPOINT => Http::response([
             'metadatos' => ['Fuente_informacion_estadistica' => 'INEGI Census 2020'],
         ])]);
@@ -35,17 +35,17 @@ class StateControllerTest extends TestCase
 
     public function test_lists_states(): void
     {
-        $this->state('01', 'Alpha', 10);
-        $this->state('02', 'Bravo', 20);
-        $this->state('03', 'Albatross', 30);
-        $this->state('04', 'Deleted', 40)->delete();
+        $this->state('01', 'Alpha', 'A', 10);
+        $this->state('02', 'Bravo', 'B', 20);
+        $this->state('03', 'Albatross', 'Al', 30);
+        $this->state('04', 'Deleted', 'D', 40)->delete();
 
         $this->getJson($this->url([
             'draw' => 4,
             'start' => 1,
             'length' => 1,
             'search' => ['value' => 'Al'],
-            'order' => [['column' => 2, 'dir' => 'desc']],
+            'order' => [['column' => 3, 'dir' => 'desc']],
         ]))
             ->assertOk()
             ->assertExactJson([
@@ -55,6 +55,7 @@ class StateControllerTest extends TestCase
                 'data' => [[
                     'state_code' => '01',
                     'name' => 'Alpha',
+                    'short_name' => 'A',
                     'total_population' => 10,
                 ]],
             ]);
@@ -82,11 +83,12 @@ class StateControllerTest extends TestCase
         ];
     }
 
-    private function state(string $code, string $name, int $population): State
+    private function state(string $code, string $name, string $shortName, int $population): State
     {
         return State::query()->create([
             'state_code' => $code,
             'name' => $name,
+            'short_name' => $shortName,
             'total_population' => $population,
         ]);
     }

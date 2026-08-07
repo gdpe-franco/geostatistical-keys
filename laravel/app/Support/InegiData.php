@@ -13,9 +13,9 @@ final class InegiData
             : null;
     }
 
-    public static function name(mixed $value): ?string
+    public static function name(mixed $value, int $maxLength = self::MAX_NAME_LENGTH): ?string
     {
-        if (! is_string($value) || ($value = trim($value)) === '' || mb_strlen($value) > self::MAX_NAME_LENGTH) {
+        if (! is_string($value) || ($value = trim($value)) === '' || mb_strlen($value) > $maxLength) {
             return null;
         }
 

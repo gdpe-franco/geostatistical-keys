@@ -11,7 +11,7 @@ class IndexStateRequest extends FormRequest
     public const MAX_LENGTH = 100;
 
     /** @var list<string> */
-    private const SORT_COLUMNS = ['state_code', 'name', 'total_population'];
+    private const SORT_COLUMNS = ['state_code', 'name', 'short_name', 'total_population'];
 
     /**
      * Determine if the user is authorized to make this request.

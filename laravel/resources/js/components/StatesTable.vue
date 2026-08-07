@@ -24,6 +24,7 @@ function formatPopulation(value, type) {
 const columns = [
     { data: 'state_code' },
     { data: 'name' },
+    { data: 'short_name' },
     {
         data: 'total_population',
         render: formatPopulation,
@@ -213,6 +214,7 @@ onBeforeUnmount(() => {
             <tr>
                 <th>State code</th>
                 <th>State name</th>
+                <th>Short name</th>
                 <th>Total population</th>
             </tr>
         </thead>
