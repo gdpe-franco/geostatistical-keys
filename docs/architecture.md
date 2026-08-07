@@ -6,9 +6,11 @@
 @startuml
 title Geostatistical Keys - System Context
 actor "Recruiter" as recruiter
-rectangle "Vue 3 + Pinia + Bootstrap\nPublic web page" as ui
-rectangle "Laravel 13" as app
-rectangle "MySQL 8.4\nstates" as db
+package "Laravel Cloud\nProduction environment" {
+  rectangle "Vue 3 + Pinia + Bootstrap\nPublic web page" as ui
+  rectangle "Laravel 13" as app
+  database "Managed MySQL 8.4\nstates" as db
+}
 rectangle "INEGI Geo Catalog" as inegi
 
 recruiter --> ui
@@ -131,4 +133,7 @@ ui --> User : render inline child DataTable
 - Keep public read endpoints stateless and rate-limited. CSRF protection applies
   to browser requests that mutate state through cookie-based sessions, not to
   the public read-only states endpoint.
-- Keep MySQL private in deployment and secrets out of Git.
+- Laravel Cloud hosts the public application and private managed MySQL. GitHub
+  Actions protects `main`; Laravel Cloud deployments are manual while the demo
+  is evaluated.
+- Keep secrets out of Git and MySQL private.
