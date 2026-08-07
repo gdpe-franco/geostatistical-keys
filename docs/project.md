@@ -18,12 +18,6 @@ Deliver a public Laravel application that imports Mexico's 32 states from INEGI,
 | Access | One public web page; no login or registration flow |
 | Delivery | Source repository and a browsable URL |
 
-## Milestones
-
-1. Add the `states` migration, INEGI client, and idempotent import command.
-2. Build the states table and municipality view.
-3. Test and deploy the demo.
-
 ## Local development
 
 ```bash
@@ -53,6 +47,52 @@ php artisan test
 npm run build
 ```
 
-Laravel Cloud is the selected production platform. Its provisioning and
-automatic deployment remain Phase 5 work; the workflow above is only the
-quality gate.
+Laravel Cloud hosts the public production environment. GitHub Actions is the
+quality gate for `main`; deployments are intentionally triggered manually from
+Laravel Cloud while the demo is evaluated.
+
+### Laravel Cloud production build
+
+This repository is a monorepo for deployment purposes. Select `laravel/` as
+the Laravel Cloud application root; the root-level Compose and Docker files are
+local-development infrastructure only.
+
+Set the PHP runtime to 8.4. The application already exposes Laravel's native
+health endpoint at `/up`, which must not depend on INEGI.
+
+Use this build command in the environment's deployment settings:
+
+```bash
+composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
+npm ci --audit false
+npm run build
+```
+
+After the private MySQL resource is attached, use this deploy command:
+
+```bash
+php artisan migrate --force --no-interaction
+```
+
+### Laravel Cloud environment variables
+
+Create `APP_KEY` as a Laravel Cloud secret and link it only to the production
+environment. Generate its value locally with `php artisan key:generate --show`;
+do not add it to this repository or share it in issue trackers, chat, or build
+logs.
+
+Laravel Cloud injects `APP_NAME`, `APP_ENV`, `APP_DEBUG`, `APP_URL`,
+`LOG_CHANNEL=laravel-cloud-socket`, `SESSION_DRIVER=cookie`, and the attached
+MySQL connection values. Keep those values. The cookie session driver does not
+authenticate the public API and does not require a database session table.
+
+Add only these custom production environment variables:
+
+| Variable | Value | Reason |
+| --- | --- | --- |
+| `QUEUE_CONNECTION` | `sync` | No queue worker is in scope |
+| `LOG_LEVEL` | `warning` | Keep the hosted demo logs concise |
+
+Do not override the injected `DB_CONNECTION`, `CACHE_STORE`, `DB_HOST`,
+`DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, or `DB_PASSWORD` values. Keep the
+MySQL public endpoint disabled; it is not required by the application.
