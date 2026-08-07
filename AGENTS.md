@@ -17,7 +17,7 @@
 - Define database tables, constraints, timestamp behavior, and lifecycle fields in the architecture ER diagrams; treat them as the schema authority.
 - Validate all request input; whitelist sortable columns; use finite outbound HTTP timeouts.
 - Never commit `.env`, credentials, generated dependencies, or build output.
-- Follow Laravel conventions: use migrations, Eloquent models/scopes, single-purpose services, Artisan commands, controllers, Form Requests at HTTP boundaries, and readonly DTOs for consumed external response shapes. Do not add a repository abstraction over Eloquent without a concrete need.
+- Follow Laravel conventions: use migrations, Eloquent models/scopes, single-purpose services, Artisan commands, controllers, Form Requests at HTTP boundaries, and readonly DTOs for consumed external response shapes. Keep controllers to orchestration, Form Requests to HTTP validation/translation, and reusable model queries in Eloquent scopes. Do not add a repository abstraction over Eloquent without a concrete need.
 - Commit subjects use `<type>: <imperative summary>` with no scope, task identifier, body, or footer.
 
 ## UI and verification

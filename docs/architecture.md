@@ -89,4 +89,7 @@ ui --> User : render list
 - Keep INEGI HTTP calls in a single-purpose service with finite timeouts.
 - Use a unique index and upsert so imports are idempotent.
 - Whitelist sort fields and validate pagination/search inputs.
+- Keep public read endpoints stateless and rate-limited. CSRF protection applies
+  to browser requests that mutate state through cookie-based sessions, not to
+  the public read-only states endpoint.
 - Keep MySQL private in deployment and secrets out of Git.
