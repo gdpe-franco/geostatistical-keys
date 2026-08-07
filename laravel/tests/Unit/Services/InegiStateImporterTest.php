@@ -16,7 +16,7 @@ class InegiStateImporterTest extends TestCase
 
     private const STATE_COUNT = 32;
 
-    public function test_imports_states(): void
+    public function test_imports_and_restores_states(): void
     {
         Http::fake([InegiStateImporter::STATES_ENDPOINT => Http::response(['datos' => self::states()])]);
 

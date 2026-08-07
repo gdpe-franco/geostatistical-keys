@@ -3,7 +3,8 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>{{ config('app.name', 'Claves geoestadísticas') }}</title>
+        <title>Geostatistical Keys</title>
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml">
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body>

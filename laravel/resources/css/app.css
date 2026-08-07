@@ -15,22 +15,33 @@
 }
 
 body {
+    background: var(--app-background);
+    min-width: 320px;
+}
+
+.app-shell {
     background:
         linear-gradient(90deg, rgb(142 90 122 / 0.04) 1px, transparent 1px),
         linear-gradient(rgb(142 90 122 / 0.04) 1px, transparent 1px),
         var(--app-background);
     background-size: 2rem 2rem;
-    min-width: 320px;
-}
-
-.app-shell {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
 
+.app-shell--dark {
+    --app-accent: #d891b7;
+    --app-background: #303030;
+    --app-border: #555;
+    --app-caption: #c8c1c6;
+    --app-hover: #474047;
+    --app-surface: #3a3a3a;
+    --app-text: #f5f1f3;
+}
+
 .app-header {
-    background: rgb(255 255 255 / 0.88);
+    background: var(--app-surface);
     border-bottom: 1px solid var(--app-border);
     backdrop-filter: blur(0.75rem);
 }
@@ -86,6 +97,30 @@ body {
     border-radius: 50%;
     height: 0.5rem;
     width: 0.5rem;
+}
+
+.header-actions {
+    align-items: center;
+    display: flex;
+    gap: 0.75rem;
+}
+
+.theme-toggle {
+    align-items: center;
+    background: transparent;
+    border: 1px solid var(--app-border);
+    border-radius: 999px;
+    color: var(--app-text);
+    display: inline-flex;
+    font: inherit;
+    font-size: 0.75rem;
+    font-weight: 700;
+    gap: 0.35rem;
+    padding: 0.45rem 0.7rem;
+}
+
+.theme-toggle:hover {
+    background: var(--app-hover);
 }
 
 .catalog-intro {
@@ -170,6 +205,28 @@ body {
 .data-surface table {
     --bs-table-striped-bg: var(--app-hover);
     --bs-table-hover-bg: var(--app-hover);
+}
+
+.app-shell--dark .data-surface {
+    --bs-table-bg: var(--app-surface);
+    --bs-table-color: var(--app-text);
+    --bs-table-striped-color: var(--app-text);
+    --bs-table-hover-color: var(--app-text);
+    --bs-body-bg: var(--app-surface);
+    --bs-body-color: var(--app-text);
+    --bs-border-color: var(--app-border);
+    --bs-pagination-bg: var(--app-surface);
+    --bs-pagination-color: var(--app-text);
+    --bs-pagination-border-color: var(--app-border);
+    --bs-pagination-hover-bg: var(--app-hover);
+    --bs-pagination-hover-color: var(--app-text);
+}
+
+.app-shell--dark .data-surface .form-control,
+.app-shell--dark .data-surface .form-select {
+    background: var(--app-background);
+    border-color: var(--app-border);
+    color: var(--app-text);
 }
 
 .data-surface th {

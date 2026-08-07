@@ -4,10 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\IndexStateRequest;
 use App\Models\State;
+use App\Services\InegiStateCatalog;
 use Illuminate\Http\JsonResponse;
 
 class StateController extends Controller
 {
+    public function summary(InegiStateCatalog $catalog): JsonResponse
+    {
+        return response()->json([
+            'total' => State::query()->count(),
+            'source' => $catalog->source(),
+        ]);
+    }
+
     public function index(IndexStateRequest $request): JsonResponse
     {
         $total = State::query()->count();

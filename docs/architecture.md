@@ -89,6 +89,11 @@ ui --> User : render list
 - Keep INEGI HTTP calls in a single-purpose service with finite timeouts.
 - Use a unique index and upsert so imports are idempotent.
 - Whitelist sort fields and validate pagination/search inputs.
+- Group public endpoints beneath the `/api/v1` prefix so future incompatible
+  API changes have an explicit version boundary.
+- Derive catalog totals from persisted states. Retrieve the INEGI source label
+  on demand, map only its required metadata field, and never persist it; a
+  source failure must not prevent the local total from being returned.
 - Keep public read endpoints stateless and rate-limited. CSRF protection applies
   to browser requests that mutate state through cookie-based sessions, not to
   the public read-only states endpoint.

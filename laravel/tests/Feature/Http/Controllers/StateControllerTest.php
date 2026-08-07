@@ -3,7 +3,9 @@
 namespace Tests\Feature\Http\Controllers;
 
 use App\Models\State;
+use App\Services\InegiStateCatalog;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Http;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
@@ -11,7 +13,25 @@ class StateControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    private const PATH = '/api/states';
+    private const STATES_ROUTE = 'v1.states.index';
+
+    private const SUMMARY_ROUTE = 'v1.summary';
+
+    public function test_summarizes_states(): void
+    {
+        $this->state('01', 'Alpha', 10);
+        $this->state('02', 'Deleted', 20)->delete();
+        Http::fake([InegiStateCatalog::STATES_ENDPOINT => Http::response([
+            'metadatos' => ['Fuente_informacion_estadistica' => 'INEGI Census 2020'],
+        ])]);
+
+        $this->getJson(route(self::SUMMARY_ROUTE))
+            ->assertOk()
+            ->assertExactJson([
+                'total' => 1,
+                'source' => 'INEGI Census 2020',
+            ]);
+    }
 
     public function test_lists_states(): void
     {
@@ -76,6 +96,6 @@ class StateControllerTest extends TestCase
      */
     private function url(array $query): string
     {
-        return self::PATH.'?'.http_build_query($query);
+        return route(self::STATES_ROUTE, $query);
     }
 }

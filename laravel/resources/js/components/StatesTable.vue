@@ -18,7 +18,7 @@ const columns = [
 ];
 
 const options = {
-    ajax: '/api/states',
+    ajax: '/api/v1/states',
     serverSide: true,
     processing: true,
     pageLength: 10,

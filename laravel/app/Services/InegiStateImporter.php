@@ -10,7 +10,7 @@ use UnexpectedValueException;
 
 class InegiStateImporter
 {
-    public const STATES_ENDPOINT = 'https://gaia.inegi.org.mx/wscatgeo/v2/mgee/';
+    public const STATES_ENDPOINT = InegiStateCatalog::STATES_ENDPOINT;
 
     private const EXPECTED_STATE_COUNT = 32;
 
