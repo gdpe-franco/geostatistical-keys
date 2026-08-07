@@ -39,7 +39,7 @@ entity states {
 @enduml
 ```
 
-Both INEGI endpoints return records in `datos`. Map `cve_ent`, `nomgeo`, and `pob_total` to the `states` fields. For municipalities, return mapped `cve_ent`, `cve_mun`, `nomgeo`, and `pob_total`; do not persist the response or its metadata. If persistence is later needed, use the English plural `municipalities` table.
+Both INEGI endpoints return records in `datos`. Map `cve_ent`, `nomgeo`, and `pob_total` to the `states` fields. For municipalities, validate `cve_ent` against the selected state and map `cve_mun`, `nomgeo`, and `pob_total` to `municipality_code`, `name`, and `total_population`; do not persist the response or its metadata. If persistence is later needed, use the English plural `municipalities` table.
 
 All timestamps are stored and exposed as UTC. The Vue client converts them for display using the browser timezone.
 
@@ -73,7 +73,7 @@ participant "Laravel" as app
 participant "INEGI" as inegi
 
 User -> ui : select state
-ui -> app : GET municipalities/{state_code}
+ui -> app : GET /api/v1/states/{state_code}/municipalities
 app -> inegi : GET /mgem/{state_code}
 inegi --> app : datos[]
 app --> ui : mapped municipalities

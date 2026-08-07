@@ -2,6 +2,7 @@
 
 namespace App\DataTransferObjects;
 
+use App\Support\InegiData;
 use UnexpectedValueException;
 
 final readonly class InegiStateData
@@ -23,17 +24,15 @@ final readonly class InegiStateData
      */
     public static function fromApi(array $state): self
     {
-        $code = $state[self::STATE_CODE] ?? null;
-        $name = $state[self::NAME] ?? null;
-        $population = $state[self::TOTAL_POPULATION] ?? null;
+        $code = InegiData::code($state[self::STATE_CODE] ?? null, 2);
+        $name = InegiData::name($state[self::NAME] ?? null);
+        $population = InegiData::population($state[self::TOTAL_POPULATION] ?? null);
 
-        if (! is_string($code) || ! preg_match('/^\d{2}$/', $code)
-            || ! is_string($name) || ($name = trim($name)) === '' || mb_strlen($name) > 120
-            || (! is_string($population) && ! is_int($population)) || ! ctype_digit((string) $population)) {
+        if ($code === null || $name === null || $population === null) {
             throw new UnexpectedValueException('INEGI returned an invalid state record.');
         }
 
-        return new self($code, $name, (int) $population);
+        return new self($code, $name, $population);
     }
 
     /**
