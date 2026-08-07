@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use UnexpectedValueException;
 
-final class InegiStateImporter
+class InegiStateImporter
 {
     public const STATES_ENDPOINT = 'https://gaia.inegi.org.mx/wscatgeo/v2/mgee/';
 
